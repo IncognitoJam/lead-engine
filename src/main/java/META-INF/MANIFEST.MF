@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: PNGDecoder.jar lwjgl.jar lwjgl_util.jar
+Main-Class: com.pb.engine.Main
+
