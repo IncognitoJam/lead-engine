@@ -119,12 +119,12 @@ public class Camera3D implements Camera {
         if (delta <= 0.0f) {
             throw new IllegalArgumentException("Delta must be greater than 0");
         }
-        boolean keyUp = Keyboard.isKeyDown((int) 17);
-        boolean keyDown = Keyboard.isKeyDown((int) 31);
-        boolean keyLeft = Keyboard.isKeyDown((int) 30);
-        boolean keyRight = Keyboard.isKeyDown((int) 32);
-        boolean space = Keyboard.isKeyDown((int) 57);
-        boolean shift = Keyboard.isKeyDown((int) 42);
+        boolean keyUp = Keyboard.isKeyDown(17);
+        boolean keyDown = Keyboard.isKeyDown(31);
+        boolean keyLeft = Keyboard.isKeyDown(30);
+        boolean keyRight = Keyboard.isKeyDown(32);
+        boolean space = Keyboard.isKeyDown(57);
+        boolean shift = Keyboard.isKeyDown(42);
         if (keyUp && keyRight && !keyLeft && !keyDown) {
             this.moveLookDir(delta * 0.003f, 0.0f, (-delta) * 0.003f);
         }
@@ -162,12 +162,12 @@ public class Camera3D implements Camera {
         if (delta <= 0.0f) {
             throw new IllegalArgumentException("Delta must be greater than 0");
         }
-        boolean keyUp = Keyboard.isKeyDown((int) 17);
-        boolean keyDown = Keyboard.isKeyDown((int) 31);
-        boolean keyLeft = Keyboard.isKeyDown((int) 30);
-        boolean keyRight = Keyboard.isKeyDown((int) 32);
-        boolean space = Keyboard.isKeyDown((int) 57);
-        boolean shift = Keyboard.isKeyDown((int) 42);
+        boolean keyUp = Keyboard.isKeyDown(17);
+        boolean keyDown = Keyboard.isKeyDown(31);
+        boolean keyLeft = Keyboard.isKeyDown(30);
+        boolean keyRight = Keyboard.isKeyDown(32);
+        boolean space = Keyboard.isKeyDown(57);
+        boolean shift = Keyboard.isKeyDown(42);
         if (keyUp && keyRight && !keyLeft && !keyDown) {
             this.moveLookDir(speed * delta * 0.003f, 0.0f, (-speed) * delta * 0.003f);
         }
@@ -230,30 +230,30 @@ public class Camera3D implements Camera {
 
     @Override
     public void applyOrtho() {
-        GL11.glPushAttrib((int) 4096);
-        GL11.glMatrixMode((int) 5889);
+        GL11.glPushAttrib(4096);
+        GL11.glMatrixMode(5889);
         GL11.glLoadIdentity();
-        GL11.glOrtho((double) (-this.aspectRatio), (double) this.aspectRatio, (double) -1.0, (double) 1.0, (double) 0.0, (double) this.zFar);
+        GL11.glOrtho((double) (-this.aspectRatio), (double) this.aspectRatio, -1.0, 1.0, 0.0, (double) this.zFar);
         GL11.glPopAttrib();
     }
 
     @Override
     public void applyProjection() {
-        GL11.glPushAttrib((int) 4096);
-        GL11.glMatrixMode((int) 5889);
+        GL11.glPushAttrib(4096);
+        GL11.glMatrixMode(5889);
         GL11.glLoadIdentity();
-        GLU.gluPerspective((float) this.fov, (float) this.aspectRatio, (float) this.zNear, (float) this.zFar);
+        GLU.gluPerspective(this.fov, this.aspectRatio, this.zNear, this.zFar);
         GL11.glPopAttrib();
     }
 
     @Override
     public void applyTranslations() {
-        GL11.glPushAttrib((int) 4096);
-        GL11.glMatrixMode((int) 5888);
-        GL11.glRotatef((float) this.pitch, (float) 1.0f, (float) 0.0f, (float) 0.0f);
-        GL11.glRotatef((float) this.yaw, (float) 0.0f, (float) 1.0f, (float) 0.0f);
-        GL11.glRotatef((float) this.roll, (float) 0.0f, (float) 0.0f, (float) 1.0f);
-        GL11.glTranslatef((float) (-this.x), (float) (-this.y), (float) (-this.z));
+        GL11.glPushAttrib(4096);
+        GL11.glMatrixMode(5888);
+        GL11.glRotatef(this.pitch, 1.0f, 0.0f, 0.0f);
+        GL11.glRotatef(this.yaw, 0.0f, 1.0f, 0.0f);
+        GL11.glRotatef(this.roll, 0.0f, 0.0f, 1.0f);
+        GL11.glTranslatef(-this.x, -this.y, -this.z);
         GL11.glPopAttrib();
     }
 
@@ -271,12 +271,12 @@ public class Camera3D implements Camera {
 
     @Override
     public float getY() {
-        return this.z;
+        return this.y;
     }
 
     @Override
     public float getZ() {
-        return this.y;
+        return this.z;
     }
 
     @Override

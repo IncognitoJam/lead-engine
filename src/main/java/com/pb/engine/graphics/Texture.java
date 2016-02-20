@@ -46,6 +46,7 @@ public class Texture {
         int id = glGenTextures();
         glBindTexture(GL_TEXTURE_2D, id);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+        glBindTexture(GL_TEXTURE_2D, 0);
 
         return new Texture(id, image.getWidth(), image.getHeight());
     }

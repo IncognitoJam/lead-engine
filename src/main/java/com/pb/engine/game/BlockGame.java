@@ -3,13 +3,8 @@ package com.pb.engine.game;
 import com.pb.engine.graphics.Camera;
 import com.pb.engine.graphics.Camera3D;
 import com.pb.engine.graphics.Font;
-import com.pb.engine.graphics.Spritesheet;
-import com.pb.engine.graphics.shader.Shader;
-import com.pb.engine.graphics.shader.ShaderProgram;
-import com.pb.engine.maths.Vector2f;
-import com.pb.engine.maths.Vector3f;
 import com.pb.engine.utils.Configuration;
-import com.pb.engine.world.Chunk;
+import com.pb.engine.world.WorldManager;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -23,10 +18,8 @@ public class BlockGame implements Game {
     private Configuration gameConfig;
 
     private Camera camera;
-    private ShaderProgram shader;
     private Font font;
-
-    private Chunk chunk;
+    private WorldManager worldManager;
 
     private boolean renderDebug = true;
 
@@ -41,16 +34,12 @@ public class BlockGame implements Game {
 
         camera = new Camera3D.CameraBuilder().setAspectRatio(Display.getWidth() / Display.getHeight())
                 .setRotation(0, 0, 0)
-                .setPosition(0, 0, 0)
+                .setPosition(8, 64, 24)
                 .setFieldOfView(67.0f)
                 .build();
         font = new Font("fonts/arial-large.png");
 
-        Spritesheet.blocks.bind();
-        Shader temp = new Shader("/shaders/chunk.vert", "/shaders/chunk.frag");
-        shader = new ShaderProgram(temp.getvShader(), temp.getfShader());
-
-        chunk = new Chunk(shader, new Vector2f(0, 0));
+        worldManager = new WorldManager();
     }
 
     @Override
@@ -65,10 +54,8 @@ public class BlockGame implements Game {
 
     @Override
     public void update() {
-        //world.update();
-        chunk.update();
-
         input();
+        worldManager.update();
     }
 
     private void input() {
@@ -80,12 +67,17 @@ public class BlockGame implements Game {
         }
 
         while (Keyboard.next()) {
-            if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
+            if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
                 cleanup();
-            }
-            if (Keyboard.isKeyDown(Keyboard.KEY_F3)) {
+            if (Keyboard.isKeyDown(Keyboard.KEY_F3))
                 renderDebug = !renderDebug;
-            }
+            if (Keyboard.isKeyDown(Keyboard.KEY_HOME))
+                camera.setPos(0, 0, 0);
+
+            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD8))
+                camera.setPos(camera.getX(), camera.getY() + 10, camera.getZ());
+            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD2))
+                camera.setPos(camera.getX(), camera.getY() - 10, camera.getZ());
         }
     }
 
@@ -96,8 +88,7 @@ public class BlockGame implements Game {
 
         render3D();
         camera.applyTranslations();
-
-        chunk.render();
+        worldManager.render();
 
         if (renderDebug) {
             render2D();
@@ -140,10 +131,7 @@ public class BlockGame implements Game {
 
     @Override
     public void cleanup() {
-        // world.save();
-        shader.cleanup();
-        chunk.cleanup();
-        Spritesheet.blocks.cleanup();
+        worldManager.cleanup();
 
         Display.destroy();
         System.exit(0);

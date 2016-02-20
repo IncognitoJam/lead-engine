@@ -7,10 +7,6 @@ import java.util.HashMap;
 
 public class Block {
 
-    public enum Side {
-        TOP, BOTTOM, LEFT, RIGHT, FRONT, BACK
-    }
-
     private static HashMap<Byte, Block> blocks = new HashMap<>();
 
     public static Block AIR = new BlockAir((byte) 0);

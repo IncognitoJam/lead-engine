@@ -89,5 +89,10 @@ public class Vector3f {
     public void setZ(float z) {
         this.z = z;
     }
+
+    @Override
+    public int hashCode() {
+        return (int) (x * 31 + y);
+    }
 }
 

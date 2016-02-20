@@ -1,30 +1,32 @@
 package com.pb.engine.world;
 
-import com.pb.engine.maths.Vector2f;
+import com.pb.engine.maths.Vector3i;
 
 import java.util.concurrent.ConcurrentHashMap;
 
 public class World {
 
     public static final int CHUNK_SIZE = 16;
-    public static final int CHUNK_HEIGHT = 512;
+    public static final int VIEW_DISTANCE = 1;
 
-    private final String name;
     private final String seed;
-    private final long creationTime;
 
-    private final WorldGenerator worldGenerator;
+    private ConcurrentHashMap<Vector3i, Chunk> chunkMap = new ConcurrentHashMap<>();
 
-    private ConcurrentHashMap<Vector2f, Chunk> chunkMap = new ConcurrentHashMap<>();
-
-    public World(String name, String seed) {
-        this.name = name;
+    public World(String seed) {
         this.seed = seed;
-        this.creationTime = System.currentTimeMillis();
-        this.worldGenerator = new TestWorldGenerator();
-        this.worldGenerator.setSeed(seed);
     }
 
+    public static Vector3i iToCoords(int i) {
 
+    }
+
+    public static int chunkCoordsToI(int x, int y, int z) {
+        return (x * World.VIEW_DISTANCE * World.VIEW_DISTANCE) + (y * World.VIEW_DISTANCE) + z;
+    }
+
+    public static int blockCoordsToI(int x, int y, int z) {
+        return (x * World.CHUNK_SIZE * World.CHUNK_SIZE) + (y * World.CHUNK_SIZE) + z;
+    }
 
 }
